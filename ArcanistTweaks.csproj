@@ -135,7 +135,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extenders.cs" />
     <Compile Include="NewFeatures\Archetypes.cs" />
     <Compile Include="ClassToProgression.cs" />
     <Compile Include="NewFeatures\Exploits.cs" />
@@ -154,6 +153,7 @@
     <Compile Include="Tweaks.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".gitignore" />
     <None Include="Info.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -58,7 +58,6 @@ using Kingmaker.Items;
 using Kingmaker.UnitLogic.Buffs;
 using Kingmaker.UnitLogic.Alignments;
 using HarmonyLib;
-using static ArcanistTweaks.Extenders;
 
 namespace ArcanistTweaks
 {
@@ -212,40 +211,12 @@ namespace ArcanistTweaks
             if (!archetypes_to_add.Empty())
             {
                 var base_value_type = Helpers.GetField<ContextRankBaseValueType>(c, "m_BaseValueType");
-                var rank_type = Helpers.GetField<AbilityRankType>(c, "m_Type");
-                if (base_value_type == ContextRankBaseValueType.ClassLevel || base_value_type == ContextRankBaseValueType.SummClassLevelWithArchetype)
+                var archetypes = Helpers.GetField<BlueprintArchetypeReference[]>(c, "m_AdditionalArchetypes").ToList();
+                if (base_value_type == ContextRankBaseValueType.ClassLevel || base_value_type == ContextRankBaseValueType.SummClassLevelWithArchetype || base_value_type == ContextRankBaseValueType.MaxClassLevelWithArchetype)
                 {
-                    var archetypes_list = Helpers.CreateFeature(archetypes_list_prefix + rank_type.ToString() + "ArchetypesListFeature",
-                                            "",
-                                            "",
-                                            new BlueprintGuid(Guid.NewGuid()),
-                                            null,
-                                            FeatureGroup.None,
-                                            Helpers.Create<ContextRankConfigArchetypeList>(a => a.archetypes = archetypes_to_add)
-                                            );
-                    Helpers.SetField(c, "m_BaseValueType", ContextRankBaseValueTypeExtender.SummClassLevelWithArchetypes.ToContextRankBaseValueType());
-                    Helpers.SetField(c, "m_Feature", archetypes_list.ToReference<BlueprintFeatureReference>());
-                    Resources.AddBlueprint(archetypes_list);
-                }
-                else if (base_value_type == ContextRankBaseValueType.MaxClassLevelWithArchetype)
-                {
-                    var archetypes_list = Helpers.CreateFeature(archetypes_list_prefix + rank_type.ToString() + "ArchetypesListFeature",
-                        "",
-                        "",
-                        new BlueprintGuid(Guid.NewGuid()),
-                        null,
-                        FeatureGroup.None,
-                        Helpers.Create<ContextRankConfigArchetypeList>(a => a.archetypes = archetypes_to_add)
-                        );
-                    Helpers.SetField(c, "m_BaseValueType", ContextRankBaseValueTypeExtender.MaxClassLevelWithArchetypes.ToContextRankBaseValueType());
-                    Helpers.SetField(c, "m_Feature", archetypes_list.ToReference<BlueprintFeatureReference>());
-                    Resources.AddBlueprint(archetypes_list);
-                }
-                else if (base_value_type == ContextRankBaseValueTypeExtender.SummClassLevelWithArchetypes.ToContextRankBaseValueType() ||
-                         base_value_type == ContextRankBaseValueTypeExtender.MaxClassLevelWithArchetypes.ToContextRankBaseValueType())
-                {
-                    var archetypes_list = Helpers.GetField<BlueprintFeature>(c, "m_Feature");
-                    archetypes_list.ReplaceComponent<ContextRankConfigArchetypeList>(a => a.archetypes = a.archetypes.AddRangeToArray(archetypes_to_add).Distinct().ToArray());
+                    foreach(BlueprintArchetype bp in archetypes_to_add) { archetypes.Add(bp.ToReference<BlueprintArchetypeReference>()); }
+
+                    Helpers.SetField(c, "m_AdditionalArchetypes", archetypes.ToArray());
                 }
             }
         }

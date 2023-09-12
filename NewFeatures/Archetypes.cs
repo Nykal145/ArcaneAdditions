@@ -73,7 +73,7 @@ namespace ArcanistTweaks.Archetypes
             school_focus.m_Description = Helpers.CreateString($"{school_focus.name}", "At 1st level, a school savant chooses a school of magic. The arcanist gains the abilities granted by that school, as the arcane school class feature of the wizard, treating her arcanist level as her wizard level for these abilities. She can also further specialize by selecting a subschool. In addition, the arcanist can prepare one additional spell per day of each level she can cast, but this spell must be chosen from the selected school.\n"
                                             + "Finally, the arcanist must select two additional schools of magic as her opposition schools. Whenever she prepares spells from one of her opposition schools, the spell takes up two of her prepared spell slots. ");
             school_focus.AssetGuid = new BlueprintGuid(new Guid("194e6d9b7d5049e8ae202a28c41f3c1e"));
-
+                
             archetype.RemoveFeatures = new LevelEntry[] { Helpers.LevelEntry(1, Resources.GetBlueprint<BlueprintFeatureSelection>("b8bf3d5023f2d8c428fdf6438cecaea7")),
                                                           Helpers.LevelEntry(3, Resources.GetBlueprint<BlueprintFeatureSelection>("b8bf3d5023f2d8c428fdf6438cecaea7")),
                                                           Helpers.LevelEntry(7, Resources.GetBlueprint<BlueprintFeatureSelection>("b8bf3d5023f2d8c428fdf6438cecaea7")),
@@ -85,14 +85,10 @@ namespace ArcanistTweaks.Archetypes
             arcanist.m_Archetypes = arcanist.m_Archetypes.AddToArray(archetype.ToReference<BlueprintArchetypeReference>()).ToArray();
             arcanist.Progression.m_UIDeterminatorsGroup = arcanist.Progression.m_UIDeterminatorsGroup.AddToArray(school_focus.ToReference<BlueprintFeatureBaseReference>()).ToArray();
 
-            arcanist.ComponentsArray.AddToArray(Helpers.Create<PrerequisiteNoClassLevel>(p => p.m_CharacterClass = wizard.ToReference<BlueprintCharacterClassReference>()));
-            wizard.ComponentsArray.AddToArray(Helpers.Create<PrerequisiteNoClassLevel>(p => p.m_CharacterClass = arcanist.ToReference<BlueprintCharacterClassReference>()));
-
             archetype.AddComponent(Helpers.Create<PrerequisiteNoClassLevel>(p => p.m_CharacterClass = wizard.ToReference<BlueprintCharacterClassReference>()));
             arcanist.Progression.m_UIDeterminatorsGroup = arcanist.Progression.m_UIDeterminatorsGroup.AddToArray(school_focus.ToReference<BlueprintFeatureBaseReference>()) ;
             wizard.AddComponent(Helpers.prerequisiteNoArchetype(archetype));
             BlueprintArchetype[] arrArchetype = { archetype };
-
             ClassToProgression.addClassToDomains(arcanist, arrArchetype, ClassToProgression.DomainSpellsType.SpecialList, school_focus, wizard);
 
             Resources.AddBlueprint(archetype);
