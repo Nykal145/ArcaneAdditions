@@ -11,6 +11,8 @@ FEATURES: suggested settings for balance
 • Level Based Range increase but with the WotR default ranges
 • 1 point Mythic ASI
 
+WARNING:
+• Will break saves if removed after being used, this is due to the addition of the Mythic ASIs.
 
 
 CREDITS

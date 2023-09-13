@@ -82,17 +82,47 @@ namespace ArcanistTweaks.Archetypes
             
 
             archetype.AddFeatures = new LevelEntry[] { Helpers.LevelEntry(1, school_focus) };
-            arcanist.m_Archetypes = arcanist.m_Archetypes.AddToArray(archetype.ToReference<BlueprintArchetypeReference>()).ToArray();
-            arcanist.Progression.m_UIDeterminatorsGroup = arcanist.Progression.m_UIDeterminatorsGroup.AddToArray(school_focus.ToReference<BlueprintFeatureBaseReference>()).ToArray();
 
-            archetype.AddComponent(Helpers.Create<PrerequisiteNoClassLevel>(p => p.m_CharacterClass = wizard.ToReference<BlueprintCharacterClassReference>()));
-            arcanist.Progression.m_UIDeterminatorsGroup = arcanist.Progression.m_UIDeterminatorsGroup.AddToArray(school_focus.ToReference<BlueprintFeatureBaseReference>()) ;
-            wizard.AddComponent(Helpers.prerequisiteNoArchetype(archetype));
+            //var sorcerer = Resources.GetBlueprint<BlueprintCharacterClass>("b3a505fb61437dc4097f43c3f8f9a4cf");
+
+            //var bloodArcanistArchetype = Helpers.Create<BlueprintArchetype>(a =>
+            //{
+
+            //    a.name = "BloodArcanistArchetype";
+            //    a.AssetGuid = new BlueprintGuid(new Guid("b93b1302ff0e41dc8ec30d6537e46568"));
+            //    a.LocalizedName = Helpers.CreateString($"{a.name}.Name", "Blood Arcanist");
+            //    a.LocalizedDescription = Helpers.CreateString($"{a.name}.Description", "Though most arcanists possess only a rudimentary innate arcane gift, the blood arcanist has the full power of a bloodline to draw upon.");
+            //});
+            //Helpers.SetField(bloodArcanistArchetype, "m_ParentClass", arcanist);
+
+            //var bloodline = Resources.GetBlueprint<BlueprintFeatureSelection>("24bef8d1bee12274686f6da6ccbc8914");
+            //bloodline.m_DisplayName = Helpers.CreateString($"{bloodline.name}.Name", "Bloodline");
+            //bloodline.m_Description = Helpers.CreateString($"{bloodline.name}", "A blood arcanist selects one bloodline from those available through the sorcerer bloodline class feature. The blood arcanist gains the bloodline arcana and bloodline powers of that bloodline, treating her arcanist level as her sorcerer level. The blood arcanist does not gain the class skill, bonus feats, or bonus spells from her bloodline.\n"
+            //                                + "If the blood arcanist takes levels in another class that grants a bloodline, the bloodlines must be the same type, even if that means that the bloodline of one of her classes must change.. ");
+            //bloodline.AssetGuid = new BlueprintGuid(new Guid("4e4ee6ecded04476806f662e30078310"));
+
+            //bloodArcanistArchetype.RemoveFeatures = new LevelEntry[] { Helpers.LevelEntry(1, Resources.GetBlueprint<BlueprintFeatureSelection>("b8bf3d5023f2d8c428fdf6438cecaea7")),
+            //                                              Helpers.LevelEntry(3, Resources.GetBlueprint<BlueprintFeatureSelection>("b8bf3d5023f2d8c428fdf6438cecaea7")),
+            //                                              Helpers.LevelEntry(9, Resources.GetBlueprint<BlueprintFeatureSelection>("b8bf3d5023f2d8c428fdf6438cecaea7")),
+            //                                              Helpers.LevelEntry(15, Resources.GetBlueprint<BlueprintFeatureSelection>("b8bf3d5023f2d8c428fdf6438cecaea7")),
+            //};
+
+            //bloodArcanistArchetype.AddFeatures = new LevelEntry[] { Helpers.LevelEntry(1, bloodline) };
+
+            arcanist.m_Archetypes = arcanist.m_Archetypes.AddToArray(archetype.ToReference<BlueprintArchetypeReference>());
+            //arcanist.m_Archetypes = arcanist.m_Archetypes.AddToArray(bloodArcanistArchetype.ToReference<BlueprintArchetypeReference>());
+            arcanist.Progression.m_UIDeterminatorsGroup = arcanist.Progression.m_UIDeterminatorsGroup.AddToArray(school_focus.ToReference<BlueprintFeatureBaseReference>());
+            //arcanist.Progression.m_UIDeterminatorsGroup = arcanist.Progression.m_UIDeterminatorsGroup.AddToArray(bloodline.ToReference<BlueprintFeatureBaseReference>());
             BlueprintArchetype[] arrArchetype = { archetype };
+            //BlueprintArchetype[] arrArchetypeBloodline = { bloodArcanistArchetype };
             ClassToProgression.addClassToDomains(arcanist, arrArchetype, ClassToProgression.DomainSpellsType.SpecialList, school_focus, wizard);
+            //ClassToProgression.addClassToDomains(arcanist, arrArchetypeBloodline, ClassToProgression.DomainSpellsType.SpecialList, bloodline, sorcerer);
+            
 
             Resources.AddBlueprint(archetype);
             Resources.AddBlueprint(school_focus);
+           // Resources.AddBlueprint(bloodArcanistArchetype);
+           // Resources.AddBlueprint(bloodline);
         }
     }
 }
