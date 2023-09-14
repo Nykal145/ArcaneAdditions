@@ -10,7 +10,6 @@ namespace ArcanistTweaks
         public bool TableTopSpellRanges = false;
         public bool LevelBasedRangeCalc = false;
         public bool MythicASI = false;
-        public int RangeLevel = 1;
         public int MythicASIAmount = 2;
 
         public override void Save(ModEntry modEntry)

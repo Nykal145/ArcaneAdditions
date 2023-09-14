@@ -7,6 +7,12 @@ FEATURES
 • Optional Tabletop Spell Ranges 
 • Optional Level Based Spell Ranges
 
+
+LEVEL BASED SPELL RANGES
+• Close- 1ft per level base and 5ft per two levels with Tabletop ranges
+• Med- 1ft per level levels base and 10ft per level with Tabletop ranges
+• Long- 1ft per level levels base and 40ft per level with Tabletop ranges
+
 FEATURES: suggested settings for balance 
 • Level Based Range increase but with the WotR default ranges
 • 1 point Mythic ASI

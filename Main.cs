@@ -58,14 +58,6 @@ namespace ArcanistTweaks
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Caster Level for spell range calculation", GUILayout.ExpandWidth(false));
-            GUILayout.Space(10);
-            Settings.RangeLevel = Mathf.RoundToInt(GUILayout.HorizontalSlider(Settings.RangeLevel, 1, 20, GUILayout.Width(300f)));
-            GUILayout.Space(5);
-            GUILayout.Label(Settings.RangeLevel.ToString());
-            GUILayout.EndHorizontal();
-
-            GUILayout.BeginHorizontal();
             GUILayout.Label("Mythic Ability Score Increase amount  ", GUILayout.ExpandWidth(false));
             GUILayout.Space(20);
             Settings.MythicASIAmount = Mathf.RoundToInt(GUILayout.HorizontalSlider(Settings.MythicASIAmount, 1, 5, GUILayout.Width(300f)));

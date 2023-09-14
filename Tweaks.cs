@@ -3,47 +3,45 @@ using Kingmaker.Blueprints.JsonSystem;
 using HarmonyLib;
 using Kingmaker.Utility;
 using UnityEngine;
+using Kingmaker.UnitLogic.Abilities;
+using Kingmaker.UnitLogic;
 
 namespace ArcanistTweaks
 {
     class Tweaks
     {
-        [HarmonyPatch(typeof(BlueprintAbility), "GetRange")]
-        static class BlueprintAbility_GetRange_Patch
+        [HarmonyPatch(typeof(AbilityData), nameof(AbilityData.GetApproachDistance))]
+        static class AbilityData_Range_Get_Patch
         {
-            static void Postfix(ref Feet __result)
+            [HarmonyPostfix]
+            static void fix(ref float __result, AbilityData __instance)
             {
                 bool UseTTRanges = Main.Settings.TableTopSpellRanges;
                 bool LvlBasedCalc = Main.Settings.LevelBasedRangeCalc;
 
-                if (!Main.Enabled || (!LvlBasedCalc && !UseTTRanges)) return;
+                if (!Main.Enabled || !__instance.Blueprint.IsSpell || (!LvlBasedCalc && !UseTTRanges)) return;
 
-                int Level = Main.Settings.RangeLevel;
-                if (__result == defaultClose)
+                int Level = __instance.Spellbook.CasterLevel;
+
+                if (__instance.Range == AbilityRange.Close)
                 {
-                    int lvlRangeMod = (int)(LvlBasedCalc ? (UseTTRanges ? (5 * Mathf.Floor(Level / 2)) : (5 * Mathf.Floor(Level / 6))) : 0);
+                    int lvlRangeMod = (int)(LvlBasedCalc ? (UseTTRanges ? (5 * Mathf.Floor(Level / 2)) : (1 * Level)) : 0);
 
-                    __result = ((UseTTRanges ? 25 : 30) + lvlRangeMod).Feet();
+                    __result = ((UseTTRanges ? 25 : 30) + lvlRangeMod).Feet().Meters;
                 }
-                else if (__result == defaultMedium)
+                else if (__instance.Range == AbilityRange.Medium)
                 {
-                    int lvlRangeMod = (int)(LvlBasedCalc ? (UseTTRanges ? (10 * Level) : (5 * Mathf.Floor(Level / 4))) : 0);
+                    int lvlRangeMod = (int)(LvlBasedCalc ? (UseTTRanges ? (10 * Level) : (1 * Level)) : 0);
 
-                    __result = ((UseTTRanges ? 100 : 40) + lvlRangeMod).Feet();
+                    __result = ((UseTTRanges ? 100 : 40) + lvlRangeMod).Feet().Meters;
                 }
-                else if (__result == defaultLong)
+                else if (__instance.Range == AbilityRange.Long)
                 {
-                    int lvlRangeMod = (int)(LvlBasedCalc ? (UseTTRanges ? (40 * Level) : (5 * Mathf.Floor(Level / 2))) : 0);
+                    int lvlRangeMod = (int)(LvlBasedCalc ? (UseTTRanges ? (40 * Level) : (1 * Level)) : 0);
 
-                    __result = ((UseTTRanges ? 400 : 50) + lvlRangeMod).Feet();
+                    __result = ((UseTTRanges ? 400 : 50) + lvlRangeMod).Feet().Meters;
                 }
             }
-
-            private static Feet defaultClose = 30.Feet();
-
-            private static Feet defaultMedium = 40.Feet();
-
-            private static Feet defaultLong = 50.Feet();
         }
 
         class ContentAdder
